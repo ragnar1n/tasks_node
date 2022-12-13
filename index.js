@@ -27,5 +27,33 @@ app.get('/',(req,res)=>{
 
 })
 
+app.get('/delete-task/:taskId',(req,res)=>{
+    let deletedTaskId=parseInt(req.params.taskId)
+    fs.readFile('./tasks.json',"utf-8",(err,jsonstring)=>{
+        if (err){
+            console.log('Error reading file', err)
+            return
+        }
+        try{
+            const tasks=JSON.parse(jsonstring)
+            tasks.forEach((task,index)=>{
+                if (task.id===deletedTaskId){
+                    tasks.splice(index,1)
+                }
+            })
+            jsonstring=JSON.stringify(tasks,null,2)
+            fs.writeFile('./tasks.json',jsonstring,"utf-8",()=>{
+                if (err){
+                    console.log('Error writing file', err)
+                }else{
+                    console.log('Data saved')
+                }
+            })
+            res.redirect('/')
+        }catch (err){
+            console.log('Error parsing json file',err)
+        }
+    })
+})
 
 app.listen(3002)

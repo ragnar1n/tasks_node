@@ -35,7 +35,7 @@
                     <ul class="collection" id="task-list">
                         <%tasksData.forEach((taskElement)=>{%>
                             <li class="collection-item"><%= taskElement.task%>
-                            <a href="#" class="secondary-content">x</a>
+                            <a href="delete-task/<%=taskElement.id%>>" class="secondary-content">x</a>
                             </li>
                         <%})%>
                     </ul>
