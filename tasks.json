@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "task": "Study JS"
+  },
+  {
+    "id": 1,
+    "task": "Study Node.js"
+  },
+  {
+    "id": 2,
+    "task": "Study Databases"
+  }
+]
