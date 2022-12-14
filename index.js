@@ -56,4 +56,47 @@ app.get('/delete-task/:taskId',(req,res)=>{
     })
 })
 
+//proceed form post method data
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+app.post('/add-task',(req,res)=>{
+    let userTask=req.body.user_task
+    fs.readFile('./tasks.json',"utf-8",(err,jsonstring)=>{
+        if (err){
+            console.log('Error reading file', err)
+            return
+        }
+        try{
+            const tasks=JSON.parse(jsonstring)
+            //add new task
+            //create new id automatically
+            let index
+            if (tasks.length===0){
+                index=0
+            }else{
+                index=tasks[tasks.length-1].id+1
+            }
+            //create task object
+            const newTask={
+                "id":index,
+                "task":userTask
+            }
+            //add into task array
+            tasks.push(newTask)
+            jsonstring=JSON.stringify(tasks,null,2)
+            fs.writeFile('./tasks.json',jsonstring,"utf-8",()=>{
+                if (err){
+                    console.log('Error writing file', err)
+                }else{
+                    console.log('Data saved')
+                }
+            })
+            res.redirect('/')
+        }catch (err){
+            console.log('Error parsing json file',err)
+        }
+    })
+})
+
 app.listen(3002)
