@@ -56,6 +56,15 @@ app.get('/delete-task/:taskId',(req,res)=>{
     })
 })
 
+app.get('/delete-tasks/',(req,res)=>{
+    fs.writeFile('./tasks.json',JSON.stringify([]),(err)=>{
+        if (err !=null){
+            console.log('Deleting error', err)
+        }
+    })
+    res.redirect('/')
+})
+
 //proceed form post method data
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
